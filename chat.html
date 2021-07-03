@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CHAT | Local Storage</title>
+</head>
+<body>
+ 
+    <div id="chat">
+        <ol id="messages-list">
+            <!--li messages-->
+        </ol>
+    </div>
+
+   <hr>
+
+    <div id="form">
+        <input type="text" id="messages-input" onkeyup="vizible()">
+        <button id="messages-send" onclick="send();render(messages)">SEND</button>
+    </div>
+
+<script>
+
+    
+  let input = document.getElementById("messages-input")
+  
+  let btn = document.getElementById("messages-send")
+      btn.disabled=true
+  let messages = JSON.parse(localStorage.getItem("messages"))
+
+  const badWords = ["fgd", "zxz" , "sh"]
+
+
+   if(messages == null) {
+                    messages = []
+                } 
+
+               
+             //   let messages = []
+
+    const render = (messages) => {
+          
+        let list = document.getElementById("messages-list")
+            list.innerHTML = ``
+
+            messages.forEach(message => {
+                
+                let li = document.createElement("li")
+                /// preprocess render text
+                message = message.replace(":)", `<img src="emoji/Emoji-Helpful-icon.png">`)
+               
+                li.innerHTML = message
+                
+                list.appendChild(li)  
+
+            })  
+       
+    }
+
+
+    const send = () => {
+       
+        let li = document.getElementById("messages-list").getElementsByTagName('LI') 
+          let message = input.value  
+           //HW:1  omiterea spatilor goale
+          message = message.trim()
+          // cuvinte necenzurate
+          badWords.forEach(bad => {
+              if (message == bad) {
+                  message = "cuvânt necenzurat"
+              }
+          })
+         
+         messages.push(message)
+         
+        // sterge primul mesaj cind ii mai multe de 5
+         if (messages.length > 5) {
+          const firstElement = messages.shift()
+          // console.log(messages)
+        }
+        
+           localStorage.setItem("messages", JSON.stringify(messages))
+
+          input.value = ""
+
+         vizible()
+
+    }
+ 
+
+ const vizible = () => {
+        let message = input.value
+             
+        // mesage goale - dezactivarea butonului
+        message = message.trim() 
+        if(message.length == 0) {
+            
+           btn.disabled=true
+        } else {
+           btn.disabled=false
+             } 
+          }
+  
+
+    render(messages)
+
+    
+
+</script>
+
+</body>
+</html>

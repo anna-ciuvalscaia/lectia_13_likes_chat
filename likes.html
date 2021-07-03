@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Likes Counter | JSON &amp; Storage</title>
+</head>
+<body>
+    <button id="likeBTN" onclick="like()">Like</button>
+
+    <script>
+        let likes = localStorage.getItem("likes")
+        
+        function like() {
+            //HW:3
+            // likes++  
+             likes = parseInt(Number(likes) + 1)
+            render()
+            localStorage.setItem("likes", likes)
+            
+        }
+
+        function render () {
+         let btn = document.getElementById('likeBTN')
+           //HW:3
+         btn.innerText = `Likes ${Math.round(likes)}`
+            //HW:1
+         if(likes == null) {
+            btn.innerText = `Likes 0`
+            }
+            //HW:2
+         if(likes >= 1000 && likes < 1000000) {
+                btn.innerText = `Likes ${(likes / 1000).toFixed(1)} K`
+            }
+          if(likes >= 1000000) {
+            btn.innerText = `Likes ${(likes / 1000000).toFixed(1)} M`
+        }  
+        }
+        
+
+        render()
+    </script>
+</body>
+</html>
